@@ -20,28 +20,28 @@ print('-' * 20)
 print(nx, nvx, l, delta)
 print('-' * 20) 
 
-ad1 = fvm.Advection1D(nvx, Gamma = 1.0, dx = delta)
-ad1.calcCoef()
-aP = ad1.aP()
-aE = ad1.aE()
-aW = ad1.aW()
-Su = ad1.Su()
+df1 = fvm.Diffusion1D(nvx, Gamma = 1.0, dx = delta)
+df1.calcCoef()
+aP = df1.aP()
+aE = df1.aE()
+aW = df1.aW()
+Su = df1.Su()
 
 phi = np.zeros(nvx)
 phi[0]  = 2
 phi[-1] = 1
-ad1.bcDirichlet('LEFT_WALL', phi[0])
-ad1.bcDirichlet('RIGHT_WALL', phi[-1])
+df1.bcDirichlet('LEFT_WALL', phi[0])
+df1.bcDirichlet('RIGHT_WALL', phi[-1])
 
 print('-' * 20)   
 print(aP, aE, aW, Su, sep = '\n')
 print('-' * 20) 
-print(ad1.aP(), ad1.aE(), ad1.aW(), ad1.Su(), sep = '\n')
+print(df1.aP(), df1.aE(), df1.aW(), df1.Su(), sep = '\n')
 print('-' * 20) 
 
 
 A = fvm.Matrix(malla.volumes())
-A.build(ad1)
+A.build(df1)
     
 print(A.mat())
 print(Su[1:-1])

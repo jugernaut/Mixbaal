@@ -8,6 +8,7 @@ Created on Sun Mar  4 13:21:50 2018
 
 from Mesh import Mesh
 from Diffusion import Diffusion1D
+from Advection import Advection1D
 from Matrix import Matrix
 
     
