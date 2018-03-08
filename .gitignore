@@ -99,3 +99,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Desktop Service Store files from MacOS
+.DS_Store
