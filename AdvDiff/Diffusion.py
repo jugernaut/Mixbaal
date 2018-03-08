@@ -42,11 +42,6 @@ if __name__ == '__main__':
     df1.calcCoef()
     print(df1.aP(), df1.aE(), df1.aW(), df1.Su(), sep = '\n')
 
-    ap = df1.aP()
-    ae = df1.aE()
-    aw = df1.aW()
-    su = df1.Su()
-
     df1.bcDirichlet('LEFT_WALL', 2)
     df1.bcDirichlet('RIGHT_WALL', 1)
     print(df1.aP(), df1.aE(), df1.aW(), df1.Su(), sep = '\n')

@@ -35,17 +35,17 @@ class Advection1D(Coefficients):
         aW = self.aW()
         aP = self.aP()
 
-        for i in range(self.__nvx):
+        for i in range(1,self.__nvx-1):
             aE[i] += np.max(self.__u[i],0)
             aW[i] += np.max(-self.__u[i-1],0)
             aP[i] += aE[i] + aW[i] + self.__rho * (self.__u[i] - self.__u[i-1])
 
 if __name__ == '__main__':
     
-    nvx = 6
-    u = np.sin(np.linspace(0,1,nvx))
+    nx = 5
+    u = np.sin(np.linspace(0,1,nx))
     print(u)
-    af1 = Advection1D(5, 5, 1)
+    af1 = Advection1D(6, 1, 1)
     af1.setVel(u)
     print(af1.u())
     af1.calcCoef()
