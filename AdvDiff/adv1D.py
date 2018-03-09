@@ -20,15 +20,28 @@ print('-' * 20)
 print(nx, nvx, l, delta)
 print('-' * 20) 
 
+fvm.Coefficients.alloc(nvx)
+
+df1 = fvm.Diffusion1D(nvx, Gamma = 1.0, dx = delta)
+df1.calcCoef()
+print(df1.aP(), df1.aE(), df1.aW(), df1.Su(), sep = '\n')
+print('-' * 20) 
+
 ad1 = fvm.Advection1D(nvx, rho = 1.0, dx = delta)
 ad1.setVel(np.ones(nx))
 ad1.calcCoef()
+print(ad1.aP(), ad1.aE(), ad1.aW(), ad1.Su(), sep = '\n')
+print('-' * 20)
+
+print(df1.aP(), df1.aE(), df1.aW(), df1.Su(), sep = '\n')
+print('-' * 20)
 
 phi = np.zeros(nvx)
 phi[0]  = 2
 phi[-1] = 1
-ad1.bcDirichlet('LEFT_WALL', phi[0])
-ad1.bcDirichlet('RIGHT_WALL', phi[-1])
+
+fvm.Coefficients.bcDirichlet('LEFT_WALL', phi[0])
+fvm.Coefficients.bcDirichlet('RIGHT_WALL', phi[-1])
 
 print(ad1.aP(), ad1.aE(), ad1.aW(), ad1.Su(), sep = '\n')
 print('-' * 20) 
@@ -36,7 +49,7 @@ print('-' * 20)
 Su = ad1.Su()
 A = fvm.Matrix(malla.volumes())
 A.build(ad1)
-#phi[1:-1] = np.linalg.solve(A.mat(),Su[1:-1])
+phi[1:-1] = np.linalg.solve(A.mat(),Su[1:-1])
     
 print(A.mat())
 print(Su[1:-1])

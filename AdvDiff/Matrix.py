@@ -43,27 +43,28 @@ class Matrix():
             A[i][i] = aP[i+1]
             A[i][i+1] = -aE[i+1]
             A[i][i-1] = -aW[i+1]
-            A[-1][-1] = aP[-2]
+        A[-1][-1] = aP[-2]
         A[-1][-2] = -aW[-2]
 
 if __name__ == '__main__':
 
     a = Matrix(6)
+    print('-' * 20)  
     print(a.mat())
+    print('-' * 20)  
     
     from Diffusion import Diffusion1D        
     df1 = Diffusion1D(6, 1, 0.25)
-    df1.coef()
+    df1.alloc(6)
+    df1.calcCoef()
     print(df1.aP(), df1.aE(), df1.aW(), df1.Su(), sep = '\n')
+    print('-' * 20)  
 
-    ap = df1.aP()
-    ae = df1.aE()
-    aw = df1.aW()
-    su = df1.Su()
-
-    ap[1], su[1] = df1.bcDirichlet(ap[1],aw[1],su[1],2)
-    ap[-2], su[-2] = df1.bcDirichlet(ap[-2],ae[-2],su[-2],1)
+    df1.bcDirichlet('LEFT_WALL', 2)
+    df1.bcDirichlet('RIGHT_WALL', 1)
     print(df1.aP(), df1.aE(), df1.aW(), df1.Su(), sep = '\n')
+    print('-' * 20)  
     
     a.build(df1)
     print(a.mat())
+    print('-' * 20)  

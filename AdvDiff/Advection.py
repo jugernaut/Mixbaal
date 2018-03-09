@@ -25,35 +25,46 @@ class Advection1D(Coefficients):
         del(self.__u)
 
     def setVel(self, u):
-    	self.__u = u
+        self.__u = u
 
     def u(self):
-    	return self.__u
+        return self.__u
     
     def calcCoef(self):
         aE = self.aE()
         aW = self.aW()
         aP = self.aP()
+        u = self.__u
+        rho = self.__rho
 
         for i in range(1,self.__nvx-1):
-            aE[i] += np.max(self.__u[i],0)
-            aW[i] += np.max(-self.__u[i-1],0)
-            aP[i] += aE[i] + aW[i] + self.__rho * (self.__u[i] - self.__u[i-1])
+            aE[i] += np.max(u[i],0)
+            aW[i] += np.max(-u[i-1],0)
+            aP[i] += aE[i] + aW[i] + rho * (u[i] - u[i-1])
 
 if __name__ == '__main__':
     
     nx = 5
-    u = np.sin(np.linspace(0,1,nx))
+#    u = np.sin(np.linspace(0,1,nx))
+    u = np.ones(nx)
+    print('-' * 20)  
     print(u)
+    print('-' * 20)  
+
     af1 = Advection1D(6, 1, 1)
+    af1.alloc(6)
     af1.setVel(u)
     print(af1.u())
+    print('-' * 20)  
+
     af1.calcCoef()
     print(af1.aP(), af1.aE(), af1.aW(), af1.Su(), sep = '\n')
+    print('-' * 20)  
 
     af1.bcDirichlet('LEFT_WALL', 2)
     af1.bcDirichlet('RIGHT_WALL', 1)
     print(af1.aP(), af1.aE(), af1.aW(), af1.Su(), sep = '\n')
+    print('-' * 20)  
 
 
 

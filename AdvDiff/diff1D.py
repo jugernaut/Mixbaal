@@ -21,6 +21,7 @@ print(nx, nvx, l, delta)
 print('-' * 20) 
 
 df1 = fvm.Diffusion1D(nvx, Gamma = 1.0, dx = delta)
+df1.alloc(nvx)
 df1.calcCoef()
 
 phi = np.zeros(nvx)
