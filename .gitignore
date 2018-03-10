@@ -102,3 +102,6 @@ ENV/
 
 # Desktop Service Store files from MacOS
 .DS_Store
+
+# PDF files
+*.pdf
