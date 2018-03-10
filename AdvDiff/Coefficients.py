@@ -19,9 +19,11 @@ class Coefficients():
     __aW = None
     __Su = None
     __nvx = None
+    __delta = None
 
-    def __init__(self, nvx = None):
+    def __init__(self, nvx = None, delta = None):
         Coefficients.__nvx = nvx
+        Coefficients.__delta = delta
 
 
     @staticmethod
@@ -34,6 +36,12 @@ class Coefficients():
         Coefficients.__aE = np.zeros(nvx)
         Coefficients.__aW = np.zeros(nvx)
         Coefficients.__Su = np.zeros(nvx)
+    
+    def setVolumes(self, nvx):
+        Coefficients.__nvx = nvx
+        
+    def setDelta(self, delta):
+        Coefficients.__delta = delta
         
     def aP(self):
         return Coefficients.__aP
@@ -61,10 +69,18 @@ class Coefficients():
             aP[-2] += aE[-2]
             Su[-2] += 2 * aE[-2] * phi       
 
+    def source(self, q):
+        Su = Coefficients.__Su
+        dx = Coefficients.__delta
+        
+        Su += q * dx
+        
+
 if __name__ == '__main__':
     
-    coef1 = Coefficients(6)
+    coef1 = Coefficients(6, 0.25)
     coef1.alloc(6)
+    coef1.source(100)
     
     print('-' * 20)  
     print(coef1.aP(), coef1.aE(), coef1.aW(), coef1.Su(), sep = '\n')

@@ -57,6 +57,7 @@ if __name__ == '__main__':
     df1 = Diffusion1D(6, 1, 0.25)
     df1.alloc(6)
     df1.calcCoef()
+    df1.source(100)
     print(df1.aP(), df1.aE(), df1.aW(), df1.Su(), sep = '\n')
     print('-' * 20)  
 

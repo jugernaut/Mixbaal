@@ -11,7 +11,7 @@ from Coefficients import Coefficients
 class Diffusion1D(Coefficients):
     
     def __init__(self, nvx = None, Gamma = None, dx = None):
-        super().__init__(nvx)
+        super().__init__(nvx, dx)
         self.__nvx = nvx
         self.__Gamma = Gamma
         self.__dx = dx
@@ -28,7 +28,7 @@ class Diffusion1D(Coefficients):
         aE += self.__Gamma / self.__dx
         aW += self.__Gamma / self.__dx
         aP += aE + aW
-
+ 
 #        for i in range(self.__nvx):
 #            aE[i] += self.__Gamma / self.__dx
 #            aW[i] += self.__Gamma / self.__dx
@@ -39,6 +39,8 @@ if __name__ == '__main__':
     df1 = Diffusion1D(5, 5, 1)
     df1.alloc(5)
     df1.calcCoef()
+    df1.source(100)
+
     print('-' * 20)  
     print(df1.aP(), df1.aE(), df1.aW(), df1.Su(), sep = '\n')
     print('-' * 20)  
