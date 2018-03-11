@@ -74,17 +74,26 @@ T[0]  = TA        # Condición de frontera izquierda
 T[-1] = TB        # Condición de frontera derecha
 df1.bcDirichlet('LEFT_WALL', T[0])   # Se actualizan los coeficientes
 df1.bcDirichlet('RIGHT_WALL', T[-1]) # de acuerdo a las cond. de frontera
+print('aW = {}'.format(df1.aW()), 
+      'aE = {}'.format(df1.aE()), 
+      'Su = {}'.format(df1.Su()), 
+      'aP = {}'.format(df1.aP()), sep='\n')
+print('.'+'-'*70+'.')
 #
 # Se construye el sistema lineal de ecuaciones a partir de los coef. de FVM
 #
 Su = df1.Su()  # Vector del lado derecho
 A = fvm.Matrix(malla.volumes())  # Matriz del sistema
 A.build(df1) # Construcción de la matriz en la memoria
+print('A = ', A.mat(),
+      'b = {}'.format(Su[1:-1]), sep='\n')
+print('.'+'-'*70+'.')
 #
 # Se resuelve el sistema usando un algoritmo del módulo linalg
 #
 T[1:-1] = np.linalg.solve(A.mat(),Su[1:-1])
-print('Solución = ', T)
+print('Solución = {}'.format(T))
+print('.'+'-'*70+'.')
 #
 # Se construye un vector de coordenadas del dominio
 #
@@ -99,7 +108,7 @@ Ta = 800 * x + 100
 x *= 100 # Transformación a [cm]
 plt.plot(x,Ta, '-', label = 'Sol. analítica') # Sol. analítica
 plt.plot(x,T,'o', label = 'Sol. FVM')
-plt.title('Ecuación de Calor [example01]')
+plt.title('Solución de $k (\partial^2 T/\partial x^2) = 0$ con FVM')
 plt.xlabel('$x$ [cm]')
 plt.ylabel('Temperatura [$^o$C]')
 plt.grid()

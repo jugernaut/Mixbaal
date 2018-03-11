@@ -24,8 +24,11 @@ class Advection1D(Coefficients):
         del(self.__dx)
         del(self.__u)
 
-    def setVel(self, u):
-        self.__u = u
+    def setU(self, u):
+        if type(u) == float:
+            self.__u.fill(u)
+        else:
+            self.__u = u
 
     def u(self):
         return self.__u
@@ -38,22 +41,28 @@ class Advection1D(Coefficients):
         rho = self.__rho
 
         for i in range(1,self.__nvx-1):
-            aE[i] += np.max(u[i],0)
-            aW[i] += np.max(-u[i-1],0)
-            aP[i] += aE[i] + aW[i] + rho * (u[i] - u[i-1])
+            # Diferencias Centrales
+            CE = - rho * u[i] * 0.5
+            CW =   rho * u[i-1] * 0.5
+            # Upwind
+#            CE = max((-u[i],0)) 
+#            CW = max((u[i-1],0))
+            aE[i] += CE 
+            aW[i] += CW
+            aP[i] += CE + CW + rho * (u[i] - u[i-1])
 
 if __name__ == '__main__':
     
     nx = 5
-#    u = np.sin(np.linspace(0,1,nx))
-    u = np.ones(nx)
+    u = np.sin(np.linspace(0,1,nx))
+#    u = np.ones(nx)
     print('-' * 20)  
     print(u)
     print('-' * 20)  
 
     af1 = Advection1D(6, 1, 1)
     af1.alloc(6)
-    af1.setVel(u)
+    af1.setU(u)
     print(af1.u())
     print('-' * 20)  
 

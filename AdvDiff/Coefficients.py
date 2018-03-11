@@ -69,18 +69,38 @@ class Coefficients():
             aP[-2] += aE[-2]
             Su[-2] += 2 * aE[-2] * phi       
 
-    def source(self, q):
+    @staticmethod
+    def bcNeumman(wall, flux):
+        aP = Coefficients.__aP
+        aE = Coefficients.__aE
+        aW = Coefficients.__aW
         Su = Coefficients.__Su
         dx = Coefficients.__delta
-        
+
+        if wall == 'LEFT_WALL':
+            aP[1] -= aW[1]
+            Su[1] -= aW[1] * flux * dx
+        elif wall == 'RIGHT_WALL':
+            aP[-2] -= aE[-2]
+            Su[-2] += aE[-2] * flux * dx  
+            
+    def setSu(self, q):
+        Su = Coefficients.__Su
+        dx = Coefficients.__delta
         Su += q * dx
+        
+    def setSp(self, Sp):
+        aP = Coefficients.__aP
+        dx = Coefficients.__delta
+        aP -= Sp * dx
         
 
 if __name__ == '__main__':
     
     coef1 = Coefficients(6, 0.25)
     coef1.alloc(6)
-    coef1.source(100)
+    coef1.setSu(100)
+    coef1.setSp(-2)
     
     print('-' * 20)  
     print(coef1.aP(), coef1.aE(), coef1.aW(), coef1.Su(), sep = '\n')
@@ -97,8 +117,9 @@ if __name__ == '__main__':
     ae.fill(5)
     aw.fill(5)
     ap.fill(10)
+    coef1.setSp(-2)
     coef1.bcDirichlet('LEFT_WALL', 2)
-    coef1.bcDirichlet('RIGHT_WALL', 1)
+    coef1.bcNeumman('RIGHT_WALL', 1)
     print(coef1.aP(), coef1.aE(), coef1.aW(), coef1.Su(), sep = '\n')
     print('-' * 20)  
 
