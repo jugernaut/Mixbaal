@@ -11,6 +11,7 @@ from Mesh import Mesh
 from Coefficients import Coefficients
 from Diffusion import Diffusion1D
 from Advection import Advection1D
+from Temporal import Temporal1D
 from Matrix import Matrix
 import time
 
@@ -59,8 +60,9 @@ if __name__ == '__main__':
     d = Diffusion1D(m.volumes())
     ma = Matrix(m.volumes())
     a = Advection1D(m.volumes())
+    t = Temporal1D(m.volumes()) 
 
-    print(m.delta(), d.aP(), a.aP(), ma.mat(), sep='\n')
+    print(m.delta(), d.aP(), a.aP(), t.aP(), ma.mat(), sep='\n')
 
     printData(nvx =5, nx = 6, longitud = 1.3)
 

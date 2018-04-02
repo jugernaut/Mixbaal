@@ -94,6 +94,17 @@ class Coefficients():
         dx = Coefficients.__delta
         aP -= Sp * dx
         
+    def printCoefficients(self):
+        print('aP = {}'.format(self.__aP), 
+              'aE = {}'.format(self.__aE), 
+              'aP = {}'.format(self.__aW),
+              'Su = {}'.format(self.__Su), sep='\n')
+
+    def cleanCoefficients(self):
+        Coefficients.__aP[:] = 0.0
+        Coefficients.__aE[:] = 0.0
+        Coefficients.__aW[:] = 0.0
+        Coefficients.__Su[:] = 0.0
 
 if __name__ == '__main__':
     
@@ -120,6 +131,7 @@ if __name__ == '__main__':
     coef1.setSp(-2)
     coef1.bcDirichlet('LEFT_WALL', 2)
     coef1.bcNeumman('RIGHT_WALL', 1)
+    coef1.printCoefficients()
     print(coef1.aP(), coef1.aE(), coef1.aW(), coef1.Su(), sep = '\n')
     print('-' * 20)  
 
