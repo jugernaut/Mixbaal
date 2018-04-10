@@ -27,7 +27,7 @@ u = 1.0 # m/s
 Gamma = 0.001 # kg / m.s
 phi0 = 1 #
 phiL = 0 #
-N = 50 # Número de nodos
+N = 350 # Número de nodos
 delta_t = 0.002 # Paso de tiempo
 steps = 500
 #
@@ -139,4 +139,4 @@ anim = FuncAnimation(fig,            # La figura
                      frames=steps+1,   # Cuadros
                      repeat=False)   # Permite poner la animación en un ciclo
 
-
+plt.show()
