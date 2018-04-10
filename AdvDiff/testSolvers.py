@@ -7,10 +7,41 @@ Created on Mon Apr  9 11:58:12 2018
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
 import StationarySolvers as sol
 import KrylovSolvers as kry
 
 import time
+
+boundA = 100
+boundB = -25
+boundC = 34
+boundD = 7
+    
+def plotSolution(ut,Nx,Ny,title,xlabel):
+    # contador es un un atributo estatico que cuenta las llamadas a esta funcion
+    plotSolution.contador = getattr(plotSolution, 'contador', 0) + 1
+
+    u = np.zeros((Ny+2, Nx+2))
+
+    u[Ny+1,:   ] = boundB 
+    u[:   ,0   ] = boundC 
+    u[:   ,Nx+1] = boundD
+    u[0   ,:   ] = boundA
+
+    ut.shape = (Ny, Nx) # Regresamos el arreglo a formato bidimensional
+    u[1:Ny+1,1:Nx+1] = ut
+
+    x = np.linspace(0,1,Nx+2)
+    y = np.linspace(0,1,Ny+2)
+    xg, yg = np.meshgrid(x,y)
+
+    plt.subplot(2,3,plotSolution.contador)    
+    plt.contourf(xg, yg, u, 10, alpha=.75, cmap=plt.cm.hot)
+    C = plt.contour(xg, yg, u, 10, colors='black')
+    plt.clabel(C, inline=1, fontsize=7.5)
+    plt.title(title)
+    plt.xlabel(xlabel)    
     
 def generateSystem(Nx, Ny, diagonal):
     N = Nx * Ny
@@ -33,11 +64,6 @@ def generateSystem(Nx, Ny, diagonal):
         A[k, Nx + k] = 1
         A[Nx + k, k] = 1
 
-    boundA = 100
-    boundB = -25
-    boundC = 34
-    boundD = 7
-
     f = np.zeros((Ny,Nx)) # RHS
 # Aplicacion de las condiciones de frontera Dirichlet
     f[0   ,:] -= boundA # Bottom wall    
@@ -48,12 +74,12 @@ def generateSystem(Nx, Ny, diagonal):
 
     return A, f
 
-Nx = 10
-Ny = 10
+Nx = 11
+Ny = 11
 A, b = generateSystem(Nx, Ny,-4) # Matriz del sistema
 
 tol = 1e-6
-max_iter = 100
+max_iter = 200
 w = 1.5
 
 t1 = time.clock()
@@ -61,34 +87,66 @@ ut = np.linalg.solve(A,b)
 t2 = time.clock()
 te = t2 - t1
 print("\n linalg.solve() \n Elapsed time to solve Ax = b : %g" % te)
+plotSolution(ut,Nx,Ny,'linalg.solve({})'.format(0),'E. time : {}'.format(te))
 
 t1 = time.clock()
-ut,error,it = sol.jacobi(A,b,tol,max_iter)
+ut,error,it, eaJ = sol.jacobi(A,b,tol,max_iter)
 t2 = time.clock()
 te = t2 - t1
 print("\n Jacobi \n Elapsed time to solve Ax = b : %g" % te)
 print(" error : %g, iteraciones : %d" % (error, it))
+plotSolution(ut,Nx,Ny,'Jacobi ({:>8.5e} - {})'.format(error, it),'E. time : {}'.format(te))
 
 t1 = time.clock()
-ut,error,it = sol.gauss_seidel(A,b,tol,max_iter)
+ut,error,it, eaGS = sol.gauss_seidel(A,b,tol,max_iter)
 t2 = time.clock()
 te = t2 - t1
 print("\n Gauss Seidel \n Elapsed time to solve Ax = b : %g" % te)
 print(" error : %g, iteraciones : %d" % (error, it))
+plotSolution(ut,Nx,Ny,'Gauss Seidel ({:>8.5e} - {})'.format(error, it),'E. time : {}'.format(te))
+
 
 t1 = time.clock()
-ut,error,it = sol.sor(A,b,tol,max_iter,w)
+ut,error,it, eaSOR = sol.sor(A,b,tol,max_iter,w)
 t2 = time.clock()
 te = t2 - t1
 print("\n SOR \n Elapsed time to solve Ax = b : %g" % te)
 print(" error : %g, iteraciones : %d" % (error, it))
+plotSolution(ut,Nx,Ny,'SOR ({:>8.5e} - {})'.format(error, it),'E. time : {}'.format(te))
+
 
 b = np.matrix(b)
 x0 = b.copy()
 
 t1 = time.clock()
-ut,residual,it = kry.steepestDescent(A,b.T,x0.T,tol,max_iter)
+ut,residual,it, raSD = kry.steepestDescent(A,b.T,x0.T,tol,max_iter)
 t2 = time.clock()
 te = t2 - t1
 print("\n Steepest Descent \n Elapsed time to solve Ax = b : %g" % te)
 print(" residual : %g, iteraciones : %d" % (residual, it))
+plotSolution(ut,Nx,Ny,'SD ({:>8.5e} - {})'.format(residual, it),'E. time : {}'.format(te))
+
+t1 = time.clock()
+ut,residual,it, raCG = kry.conjugateGradient(A,b.T,x0.T,tol,max_iter)
+t2 = time.clock()
+te = t2 - t1
+print("\n Conjugate Gradient \n Elapsed time to solve Ax = b : %g" % te)
+print(" residual : %g, iteraciones : %d" % (residual, it))
+plotSolution(ut,Nx,Ny,'CG ({:>8.5e} - {})'.format(residual, it),'E. time : {}'.format(te))
+
+plt.subplots_adjust(bottom=0.1, right=0.9, top=0.9, wspace=0.5, hspace=0.5)
+plt.show()
+
+plt.figure()
+plt.plot(eaJ, label='Jacobi')
+plt.plot(eaGS, label='Gauss-Seidel')
+plt.plot(eaSOR, label='SOR')
+plt.plot(raSD, label='SD')
+plt.plot(raCG, label='CG')
+plt.semilogy()
+plt.legend()
+plt.title('Mesh: {} X {}'.format(Nx,Ny))
+plt.xlabel('Iterations')
+plt.ylabel('error/residual')
+plt.grid()
+plt.show()

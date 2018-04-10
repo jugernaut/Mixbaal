@@ -12,6 +12,7 @@ def jacobi(A,b,tol,kmax):
     xnew = np.zeros(N)
     xold = np.zeros(N)
     error = 10
+    error_array = np.zeros(kmax)
     k = 0
     while(error > tol and k < kmax) :
         for i in range(0,N): # se puede hacer en paralelo
@@ -22,10 +23,11 @@ def jacobi(A,b,tol,kmax):
                 xnew[i] += A[i,j] * xold[j]                
             xnew[i] = (b[i] - xnew[i]) / A[i,i]
         error = np.linalg.norm(xnew-xold)
+        error_array[k] = error
         k += 1
         xold[:] = xnew[:]
 #        print(k, error)
-    return xnew, error, k
+    return xnew, error, k, error_array
 
 
 def gauss_seidel(A,b,tol,kmax):
@@ -33,6 +35,7 @@ def gauss_seidel(A,b,tol,kmax):
     xnew = np.zeros(N)
     xold = np.zeros(N)
     error = 10
+    error_array = np.zeros(kmax)
     k = 0
     while(error > tol and k < kmax) :
         for i in range(0,N): # se puede hacer en paralelo
@@ -43,16 +46,18 @@ def gauss_seidel(A,b,tol,kmax):
                 xnew[i] += A[i,j] * xold[j]                
             xnew[i] = (b[i] - xnew[i]) / A[i,i]
         error = np.linalg.norm(xnew-xold)
+        error_array[k] = error
         k += 1
         xold[:] = xnew[:]
 #        print(k, error)
-    return xnew, error, k
+    return xnew, error, k, error_array
 
 def sor(A,b,tol,kmax,w):
     N = len(b)
     xnew = np.zeros(N)
     xold = np.zeros(N)
     error = 10
+    error_array = np.zeros(kmax)
     k = 0
     while(error > tol and k < kmax) :
         for i in range(0,N): # se puede hacer en paralelo
@@ -64,10 +69,11 @@ def sor(A,b,tol,kmax,w):
             sigma = (b[i] - sigma) / A[i,i]
             xnew[i] = xold[i] + w * (sigma -xold[i])
         error = np.linalg.norm(xnew-xold)
+        error_array[k] = error
         k += 1
         xold[:] = xnew[:]
 #        print(k, error)
-    return xnew, error, k
+    return xnew, error, k, error_array
 
 
 if __name__ == '__main__':
@@ -75,12 +81,12 @@ if __name__ == '__main__':
     A = np.matrix([[3, 2],[2,6]] )
     b = np.array([2,-8])
     
-    sol, e, it = jacobi(A,b,1e-5,100)
+    sol, e, it, ea = jacobi(A,b,1e-5,100)
     print('\n Jacobi \n Solucion: {} \n Error : {} \n Iteraciones : {}'.format(sol, e, it))
     
-    sol, e, it = gauss_seidel(A,b,1e-5,100)
+    sol, e, it, ea = gauss_seidel(A,b,1e-5,100)
     print('\n Gauss-Seidel \n Solucion: {} \n Error : {} \n Iteraciones : {}'.format(sol, e, it))
     
-    sol, e, it = sor(A,b,1e-5,100,0.5)
+    sol, e, it, ea = sor(A,b,1e-5,100,0.5)
     print('\n SOR \n Solucion: {} \n Error : {} \n Iteraciones : {}'.format(sol, e, it))
 
