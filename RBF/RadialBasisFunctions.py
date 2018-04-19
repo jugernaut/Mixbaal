@@ -43,3 +43,4 @@ if __name__ == '__main__':
     rbf = Multiquadric(0.5)
     
     print(rbf.mq(1,2), rbf.d1x(1,2), rbf.d2x(1,2), rbf.c())
+    

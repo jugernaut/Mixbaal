@@ -35,14 +35,14 @@ class Line():
     def homogeneous(self):
         h = self.__L / (self.__N - 1.0)
         for i in range(self.__NI):
-            self.__x[i] = i * h
-        self.__x[0] = 0
+            self.__x[i] = (i+1) * h
+        self.__x[self.__NI] = 0
         self.__x[-1] = self.__L
         
 if __name__ == '__main__':
 
-    N = 50
-    L = 2.5
+    N = 11
+    L = 1.0
     linea = Line(N, L)
     linea.homogeneous()    
     

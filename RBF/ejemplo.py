@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Apr 18 20:03:13 2018
+Created on Thu Apr 19 07:03:27 2018
 
 @author: luiggi
 """
@@ -25,33 +25,43 @@ def fillGrammMatrix(G, line, rbf, D):
     for i in range(NI,N):
         for j in range(N):
             G[i,j] = rbf.mq(x[i], x[j])
-            
-D = 1.0
-N = 11
-L = 1.0
+
+L = 0.02 # meters
+TA = 100  # °C 
+TB = 200  # °C 
+k  = 0.5  # W/m.K
+q  = 1e+06 # 1e+06 W/m^3 = 1000 kW/m^3 Fuente uniforme
+N  = 21 # Número de nodos
+
 linea = kn.Line(N, L)
 linea.homogeneous()    
 
 G = np.eye(N)
 
-u = np.zeros(N)
+T = np.zeros(N)
+f = np.zeros(N)
 lam = np.zeros(N)
 
 # Boundary conditions
-u[linea.NI()] = 1.0
-u[-1] = 0.0
+T[linea.NI()] = TA
+T[-1] = TB
 
-rbf = RBF.Multiquadric(1.0/np.sqrt(N))
+f = T - q
+
+print(f)
+
+c = 1.0/np.sqrt(N)
+rbf = RBF.Multiquadric(c)
     
-fillGrammMatrix(G, linea, rbf, D)
+fillGrammMatrix(G, linea, rbf, k)
 
 print(G)
 
-lam = np.linalg.solve(G,u)
+lam = np.linalg.solve(G,f)
 print(lam)
 
-u = RBF.evaluate(linea, lam, rbf)
-
-plt.plot(linea.x(),u,'s')
+T = RBF.evaluate(linea, lam, rbf)
+x = 100 * linea.x()
+plt.plot(x,T,'s')
 plt.grid()
 plt.show()

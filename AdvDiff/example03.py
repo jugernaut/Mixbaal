@@ -59,7 +59,7 @@ import FiniteVolumeMethod as fvm
 import numpy as np
 import matplotlib.pyplot as plt
 
-def analyticSol(x):
+def analyticSol(x,n):
     return (TA - Tambiente) * np.cosh(n * (longitud - x)) / np.cosh(n * longitud) + Tambiente
 
 longitud = 1.0 # metros
@@ -119,7 +119,8 @@ x = malla.createMesh()
 #
 # Calculamos la solución exacta y el error
 #
-Ta = analyticSol(x)
+n = np.sqrt(n2)
+Ta = analyticSol(x,n)
 error = fvm.calcError(T, Ta)
 datos = {'x(m)': x,
          'T(x)': T,
@@ -132,8 +133,7 @@ print('.'+ '-'*70 + '.')
 # Calculamos la solución exacta en una malla más fina para graficar
 #
 x1 = np.linspace(0,longitud,100)
-n = np.sqrt(n2)
-Ta = analyticSol(x1)
+Ta = analyticSol(x1,n)
 #
 #  Se grafica la solución
 #

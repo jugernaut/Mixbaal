@@ -93,6 +93,8 @@ A.build(df1) # Construcción de la matriz en la memoria
 #
 # Se resuelve el sistema usando un algoritmo del módulo linalg
 #
+print(A.mat())
+print(Su[1:-1])
 T[1:-1] = np.linalg.solve(A.mat(),Su[1:-1])
 #
 # Se construye un vector de coordenadas del dominio
