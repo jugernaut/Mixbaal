@@ -45,8 +45,8 @@ class Advection1D(Coefficients):
             CE = - rho * u[i] * 0.5
             CW =   rho * u[i-1] * 0.5
             # Upwind
-#            CE = max((-u[i],0)) 
-#            CW = max((u[i-1],0))
+ #           CE = max((-u[i],0)) 
+ #           CW = max((u[i-1],0))
             aE[i] += CE 
             aW[i] += CW
             aP[i] += CE + CW + rho * (u[i] - u[i-1])

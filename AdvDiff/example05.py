@@ -27,7 +27,7 @@ u = 1.0 # m/s
 Gamma = 0.001 # kg / m.s
 phi0 = 1 #
 phiL = 0 #
-N = 50 # Número de nodos
+N = 200 # Número de nodos
 delta_t = 0.002 # Paso de tiempo
 steps = 500
 #
