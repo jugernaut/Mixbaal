@@ -1,0 +1,285 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Mar  4 13:21:50 2018
+
+@author: luiggi
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+class Mesh():
+    
+    def __init__(self, 
+                 nodes_x = None, nodes_y = None, nodes_z = None,
+                 volumes_x = None, volumes_y = None, volumes_z = None,
+                 length_x = None, length_y = None, length_z = None):
+        
+        self.__nodes_x = nodes_x
+        self.__nodes_y = nodes_y
+        self.__nodes_z = nodes_z
+
+        self.__volumes_x = volumes_x
+        self.__volumes_y = volumes_y
+        self.__volumes_z = volumes_z
+
+        self.__length_x = length_x     
+        self.__length_y = length_y   
+        self.__length_z = length_z     
+
+        self.__delta_x = None
+        self.__delta_y = None
+        self.__delta_z = None
+        
+        self.__x = None
+        self.__y = None
+        self.__z = None
+
+        self.adjustVolumes(nodes_x, nodes_y, nodes_z)
+        self.adjustNodes(volumes_x, volumes_y, volumes_z)
+        self.calcDeltas()
+    
+    def __del__(self):
+        del(self.__nodes_x)
+        del(self.__nodes_y)
+        del(self.__nodes_z)
+
+        del(self.__volumes_x)
+        del(self.__volumes_y)
+        del(self.__volumes_z)
+
+        del(self.__length_x)
+        del(self.__length_y)
+        del(self.__length_z)
+
+        del(self.__delta_x)
+        del(self.__delta_y)
+        del(self.__delta_z)
+
+    def nodes(self):
+        return (self.__nodes_x, self.__nodes_y, self.__nodes_z)
+    
+    def volumes(self):
+        return (self.__volumes_x, self.__volumes_y, self.__volumes_z)
+    
+    def lengths(self):
+        return (self.__length_x, self.__length_y, self.__length_z)
+    
+    def deltas(self):
+        return (self.__delta_x, self.__delta_y, self.__delta_z)
+    
+    def x(self):
+        return self.__x
+    
+    def y(self):
+        return self.__y
+
+    def z(self):
+        return self.__z    
+    
+    def adjustVolumes(self, nodes_x = None, nodes_y = None, nodes_z = None):
+        if nodes_x:
+            self.__volumes_x = self.__nodes_x + 1
+        if nodes_y:
+            self.__volumes_y = self.__nodes_y + 1
+        if nodes_z:
+            self.__volumes_z = self.__nodes_z + 1
+ 
+    def adjustNodes(self, volumes_x = None, volumes_y = None, volumes_z = None):
+        if volumes_x:
+            self.__nodes_x = self.__volumes_x - 1        
+        if volumes_y:
+            self.__nodes_y = self.__volumes_y - 1  
+        if volumes_z:
+            self.__nodes_z = self.__volumes_z - 1  
+            
+    def setNodes(self, nodes_x = None, nodes_y = None, nodes_z = None):
+        if nodes_x:
+            self.__nodes_x = nodes_x
+            self.adjustVolumes(nodes_x = nodes_x)
+        if nodes_y:
+            self.__nodes_y = nodes_y
+            self.adjustVolumes(nodes_x = nodes_x, 
+                                    nodes_y = nodes_y)
+        if nodes_z:
+            self.__nodes_z = nodes_z
+            self.adjustVolumes(nodes_x = nodes_x, 
+                                    nodes_y = nodes_y, 
+                                    nodes_z = nodes_z)   
+        self.calcDeltas()
+        
+    def setVolumes(self, volumes_x = None, volumes_y = None, volumes_z = None):
+        if volumes_x:
+            self.__volumes_x = volumes_x
+            self.adjustNodes(volumes_x = volumes_x)
+        if volumes_y:
+            self.__volumes_y = volumes_y
+            self.adjustNodes(volumes_x = volumes_x,
+                                    volumes_y = volumes_y)
+        if volumes_z:
+            self.__volumes_z = volumes_z
+            self.adjustNodes(volumes_x = volumes_x,
+                                    volumes_y = volumes_y,
+                                    volumes_z = volumes_z)
+        self.calcDeltas()
+        
+    def calcDeltas(self):
+        if self.__length_x:
+            self.__delta_x = self.__length_x / (self.__nodes_x - 1)
+        if self.__length_y:
+            self.__delta_y = self.__length_y / (self.__nodes_y - 1)            
+        if self.__length_z:
+            self.__delta_z = self.__length_z / (self.__nodes_z - 1)
+    
+    def createMeshFVM(self):
+        if self.__volumes_x:
+            first_volume = self.__delta_x / 2
+            final_volume = self.__length_x - first_volume
+            self.__x = np.zeros(self.__volumes_x)
+            self.__x[1:-1] = np.linspace(first_volume, final_volume, self.__volumes_x-2)
+            self.__x[-1] = self.__length_x
+        
+        if self.__volumes_y:
+            first_volume = self.__delta_y / 2
+            final_volume = self.__length_y - first_volume
+            self.__y = np.zeros(self.__volumes_y)
+            self.__y[1:-1] = np.linspace(first_volume, final_volume, self.__volumes_y-2)
+            self.__y[-1] = self.__length_y
+
+        if self.__volumes_z:
+            first_volume = self.__delta_z / 2
+            final_volume = self.__length_z - first_volume
+            self.__z = np.zeros(self.__volumes_z)
+            self.__z[1:-1] = np.linspace(first_volume, final_volume, self.__volumes_z-2)
+            self.__z[-1] = self.__length_z
+            
+    def createMeshFDM(self):
+        if self.__nodes_x:
+            self.__x = np.linspace(0, self.__length_x, self.__nodes_x)
+        if self.__nodes_y:
+            self.__y = np.linspace(0, self.__length_y, self.__nodes_y)
+        if self.__nodes_z:
+            self.__z = np.linspace(0, self.__length_z, self.__nodes_z)
+                    
+if __name__ == '__main__':
+
+    from utilities import printTest
+
+    m1 = Mesh()           
+    printTest(Test = 'Mesh()', 
+              nodes_x = m1.nodes()[0], 
+              volumes_x = m1.volumes()[0],
+              length_x = m1.lengths()[0],
+              delta_x = m1.deltas()[0])
+    
+    m1 = Mesh(nodes_x = 5)
+    printTest(Test = 'Mesh(nodes_x = 5)', 
+              nodes_x = m1.nodes()[0], 
+              volumes_x = m1.volumes()[0],
+              length_x = m1.lengths()[0],
+              delta_x = m1.deltas()[0])
+   
+    m1 = Mesh(volumes_x = 5)
+    printTest(Test = 'Mesh(volumes_x = 5)', 
+              nodes_x = m1.nodes()[0], 
+              volumes_x = m1.volumes()[0],
+              length_x = m1.lengths()[0],
+              delta_x = m1.deltas()[0])
+
+    m1 = Mesh(nodes_x = 5, length_x = 5)
+    printTest(Descr = 'A proper way to create a 1D Mesh object for FDM or FVM',
+              Test = 'Mesh(nodes_x = 5, length_x = 5)', 
+              nodes_x = m1.nodes()[0], 
+              volumes_x = m1.volumes()[0],
+              length_x = m1.lengths()[0],
+              delta_x = m1.deltas()[0])    
+    
+    m1 = Mesh(volumes_x = 10, length_x = 5)
+    printTest(Descr = 'A proper way to create a 1D Mesh object for FDM or FVM',
+              Test = 'Mesh(volumes_x = 10, length_x = 5)', 
+              nodes_x = m1.nodes()[0], 
+              volumes_x = m1.volumes()[0],
+              length_x = m1.lengths()[0],
+              delta_x = m1.deltas()[0]) 
+
+    m1.setNodes(nodes_x = 21)
+    printTest(Descr = 'Create a Mesh object then change nodes_x',
+              Test = 'm1.setNodes(nodes_x = 21)', 
+              nodes_x = m1.nodes()[0], 
+              volumes_x = m1.volumes()[0],
+              length_x = m1.lengths()[0],
+              delta_x = m1.deltas()[0])
+
+    m1.setVolumes(volumes_x = 22)
+    printTest(Descr = 'Create a Mesh object then change volumes_x',
+              Test = 'm1.setVolumes(volumes_x = 22)', 
+              nodes_x = m1.nodes()[0], 
+              volumes_x = m1.volumes()[0],
+              length_x = m1.lengths()[0],
+              delta_x = m1.deltas()[0])
+    
+    m2 = Mesh(nodes_x = 3, length_x = 2, nodes_y = 5, length_y = 10)
+    printTest(Descr = 'A proper way to create a 2D Mesh object for FDM or FVM',
+              Test = 'Mesh(nodes_x = 3, length_x = 2, nodes_y = 5, length_y = 10)', 
+              nodes_x = m2.nodes()[0], 
+              nodes_y = m2.nodes()[1], 
+              volumes_x = m2.volumes()[0],
+              volumes_y = m2.volumes()[1],
+              length_x = m2.lengths()[0],
+              length_y = m2.lengths()[1],
+              delta_x = m2.deltas()[0],
+              delta_y = m2.deltas()[1])     
+
+    m3 = Mesh(nodes_x = 3, length_x = 2, 
+              nodes_y = 5, length_y = 10,
+              nodes_z = 2, length_z = 5)
+    printTest(Descr = 'A proper way to create a 3D Mesh object for FDM or FVM',
+              Test = 'Mesh(nodes_x = 3, length_x = 2,',
+              con1 = '     nodes_y = 5, length_y = 10,', 
+              con2 = '     nodes_z = 2, length_z = 5)',
+              nodes_x = m2.nodes()[0], 
+              nodes_y = m2.nodes()[1], 
+              volumes_x = m2.volumes()[0],
+              volumes_y = m2.volumes()[1],
+              length_x = m2.lengths()[0],
+              length_y = m2.lengths()[1],
+              delta_x = m2.deltas()[0],
+              delta_y = m2.deltas()[1]) 
+    
+    mesh = Mesh(nodes_x = 11, length_x = 1)
+    printTest(Descr = 'Plot a 1D mesh',
+              Test = 'Mesh(nodes_x = 5, length_x = 1)', 
+              nodes_x = mesh.nodes()[0], 
+              volumes_x = mesh.volumes()[0],
+              length_x = mesh.lengths()[0],
+              delta_x = mesh.deltas()[0]) 
+    
+    mesh.createMeshFDM()
+    x_d = mesh.x()
+    y_d = np.zeros(len(x_d))
+    mesh.createMeshFVM()
+    x_v = mesh.x()
+    y_v = np.zeros(len(x_v))
+    print(x_d, x_v, sep='\n')
+    
+    plt.plot(x_d,y_d,'|-c', lw = 2, label='FDM nodes')
+    plt.plot(x_v,y_v,'.k', label='FVM volumes')
+    plt.grid()
+    plt.legend()
+    plt.show()
+    
+    m2.createMeshFDM()
+    x_d = m2.x()
+    y_d = m2.y()
+    xg_d, yg_d = np.meshgrid(x_d, y_d)
+
+    m2.createMeshFVM()
+    x_v = m2.x()
+    y_v = m2.y()
+    xg_v, yg_v = np.meshgrid(x_v, y_v)    
+    
+    
+    plt.plot(xg_d, yg_d, '+')
+    plt.plot(xg_v, yg_v, 'o')
+    plt.show()

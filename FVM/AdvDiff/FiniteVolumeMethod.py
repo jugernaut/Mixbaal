@@ -40,8 +40,13 @@ def decorate(f):
  
 @decorate
 def printData(**kargs):
-	for (key,value) in kargs.items():
-		print('|{:^70}|'.format('{0:>15s} = {1:10.5e}'.format(key, value)))
+    for (key,value) in kargs.items():
+        if (type(value) == str):
+            print('|{:^70}|'.format('{0:>15s} = {1:11s}'.format(key, value)))
+        elif (type(value) == int):
+            print('|{:^70}|'.format('{0:>15s} = {1:<11d}'.format(key, value)))            
+        else:
+            print('|{:^70}|'.format('{0:>15s} = {1:10.5e}'.format(key, value)))
 
 def printFrame(d):
     # Calculo el error porcentual y agrego al DataFrame
@@ -64,5 +69,5 @@ if __name__ == '__main__':
 
     print(m.delta(), d.aP(), a.aP(), t.aP(), ma.mat(), sep='\n')
 
-    printData(nvx =5, nx = 6, longitud = 1.3)
-
+    printData(Name='Laplace', nvx = 5, nx = 6, longitud = 1.3)
+    

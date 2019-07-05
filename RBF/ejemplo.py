@@ -30,7 +30,7 @@ L = 0.02 # meters
 TA = 100  # °C 
 TB = 200  # °C 
 k  = 0.5  # W/m.K
-q  = 1e+06 # 1e+06 W/m^3 = 1000 kW/m^3 Fuente uniforme
+q  = 0 #1e+06 # 1e+06 W/m^3 = 1000 kW/m^3 Fuente uniforme
 N  = 21 # Número de nodos
 
 linea = kn.Line(N, L)
