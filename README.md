@@ -1,6 +1,6 @@
-# MMCII
+# NoNacos
 
-Modelación Matemática y Computacional II
+Numerical Objects for Natural Convection Systems,
 
 Autor: Luis Miguel de la Cruz Salas
 
