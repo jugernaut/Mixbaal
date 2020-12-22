@@ -16,9 +16,9 @@ from matplotlib.animation import FuncAnimation
 #plt.style.use('ggplot')
 
 def grafica(x, phi, title = None, label = None, kind = None):
-    plt.title(title)
-    plt.xlabel('$x$ [m]')
-    plt.ylabel('$\phi$ [...]')
+    plt.title(title, fontsize=16)
+    plt.xlabel('$x$ [cm]', fontsize=14)
+    plt.ylabel('$p$ [atm]', fontsize=14)
     if kind:
         plt.plot(x,phi,kind,label=label,lw=2)
     else:

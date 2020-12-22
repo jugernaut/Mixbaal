@@ -32,7 +32,7 @@ def analyticSol(x):
 
 L = 1.0 # m
 rho = 1.0 # kg/m^3
-u = 2.5 # m/s
+u = 2.1 # m/s
 Gamma = 0.1 # kg / m.s
 phi0 = 1 #
 phiL = 0 #

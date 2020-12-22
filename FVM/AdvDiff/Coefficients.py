@@ -25,7 +25,6 @@ class Coefficients():
         Coefficients.__nvx = nvx
         Coefficients.__delta = delta
 
-
     @staticmethod
     def alloc(n):
         if Coefficients.__nvx:

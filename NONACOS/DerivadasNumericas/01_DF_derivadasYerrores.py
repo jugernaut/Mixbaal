@@ -138,7 +138,7 @@ print(dframe)
 
 # In[18]:
 
-plt.figure(figsize=(5,5))
+
 plt.plot(h,ef,'o-',label='Forward')
 plt.plot(h,eb,'s-',label='Backward')
 plt.plot(h,ec,'v-',label='Centered')
@@ -158,7 +158,6 @@ B = 2 * np.pi
 x = np.linspace(A,B,N)
 h = (B-A) / (N-1)
 
-plt.figure()
 plt.subplot(211)
 plt.plot(x,u(x),'o-')
 plt.grid()
