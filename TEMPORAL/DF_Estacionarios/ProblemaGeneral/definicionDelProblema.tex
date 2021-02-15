@@ -1,0 +1,334 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[spanish, mexico]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{fancyheadings}
+\usepackage{titlesec}
+\newcommand{\sectionbreak}{\clearpage}
+
+%-----------------------------------------------------------------------
+% Text dimensions 
+%-----------------------------------------------------------------------
+%% This controls the height of the text
+\setlength{\textheight}{22cm}
+\setlength{\voffset}{-1.5cm}
+
+%% This controls the width of the text
+\setlength{\textwidth}{16cm} % Aproxx. ~16cm
+\setlength{\hoffset}{-1.5cm}
+
+%% Separation of the footer from the body text
+\setlength{\footskip}{1.5cm} 
+
+%%
+%% Becuase I don't need marginal notes, then: 
+\setlength{\marginparsep}{0pt}
+\setlength{\marginparwidth}{0pt}
+%%
+%% Header is equal to \textwdith
+%% This is used when \marginparsep and \marginparwith are not zero
+%\addtolength{\headwidth}{\marginparsep}
+%\addtolength{\headwidth}{\marginparwidth}
+
+%% We have to substrac some points on even pages and odd pages
+%% in order to match headers and footers on even and odd pages
+\addtolength{\evensidemargin}{-56pt}
+\addtolength{\oddsidemargin}{-5pt}
+
+%-----------------------------------------------------------------------
+% Style of page and headings
+%-----------------------------------------------------------------------
+\pagestyle{fancy}
+
+\lhead[\fancyplain{}{\bf\thepage}]{\fancyplain{}{\bfseries\rightmark}}
+\rhead[\fancyplain{}{\bfseries\leftmark}]{\fancyplain{}{\bf\thepage}}
+\lfoot{\sf Depto. de Recursos Naturales, IGF--UNAM}
+\rfoot{\sf \copyright 2020, LMCS}
+\cfoot{}
+
+%\setlength{\headrulewidth}{0.4pt}
+%\setlength{\footrulewidth}{0.4pt}
+
+\author{Luis Miguel de la Cruz Salas}
+\title{Definición del probremal general}
+\graphicspath{{./Figuras/}}
+\begin{document}
+
+\section{Ecuación general}
+
+Ecuación general de transferencia de calor:
+
+\begin{equation*}
+\tau \frac{\partial \psi}{\partial t} +
+\frac{\partial}{\partial x_j} \left( \upsilon_j \psi \right) -
+\frac{\partial }{\partial x_j} \left( \Gamma \frac{\partial \psi}{\partial x_j}\right) = 
+q
+\end{equation*}
+%
+donde se usa la convención de Einstein (índices repetidos se suman) y se define lo siguiente:
+%
+\begin{center}
+	\begin{tabular}[h!]{cp{10cm}c}
+		Símbolo &  & Unidades \\
+		\hline
+		\multicolumn{3}{c}{\textbf{Parámetros físicos}}\\
+		$\tau$    & ''Almacenamiento'' & \\
+		$\upsilon$    & ''Velocidad'' & \\
+		$\Gamma$ & ''Difusividad'' &   \\
+		$q$ & Ganancia (fuente) o pérdida (sumidero) de calor &  \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}[h!]{cp{10cm}c}
+		Símbolo &  & Unidades \\
+		\hline
+		\multicolumn{3}{c}{\textbf{Variables independientes}}\\
+		$x_j$    & Coordenadas cartesianas de la posición: $(x_1, x_2, x_3) \equiv (x, y, z)$. & [m] \\
+		$t$      & Tiempo. & [s] \\
+		\hline
+		\multicolumn{3}{c}{\textbf{Variables dependientes}}\\
+		$\psi$    & ... & [] \\
+		$\upsilon_j$ & Componentes : $(\upsilon_1, \upsilon_2, \upsilon_3) \equiv (\upsilon_x, \upsilon_y, \upsilon_z)$. & [] \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Casos de estudio}
+
+\begin{center}
+	\begin{tabular}[h!]{rl}
+	\textbf{Ecuación} & \textbf{Descripción} \\
+	\hline \\
+ 	$\displaystyle - \frac{\partial }{\partial x_j} \left( \Gamma \frac{\partial \psi}{\partial x_j}\right) = q$ &
+ 	Difusión estacionaria \\ \\
+ 	$\displaystyle \frac{\partial}{\partial x_j} \left( \upsilon_j \psi \right) - \frac{\partial }{\partial x_j} \left( \Gamma \frac{\partial \psi}{\partial x_j}\right) = q$ & 
+ 	Advección -- difusión estacionaria \\ \\
+	$\displaystyle \tau \frac{\partial \psi}{\partial t} - \frac{\partial }{\partial x_j} \left( \Gamma \frac{\partial \psi}{\partial x_j}\right) = q$ &
+ 	Difusión NO estacionaria \\ \\
+	$\displaystyle \tau \frac{\partial \psi}{\partial t} + \frac{\partial}{\partial x_j} \left( \upsilon_j \psi \right) - \frac{\partial }{\partial x_j} \left( \Gamma \frac{\partial \psi}{\partial x_j}\right) = q$ &
+ 	Advección -- difusión NO estacionaria \\ \\
+	\hline
+	\end{tabular}
+\end{center}
+
+\section{Difusión estacionaria}
+
+\begin{equation}
+-\frac{\partial }{\partial x_j} \left( \Gamma \frac{\partial \psi}{\partial x_j}\right) = q 
+\end{equation}
+
+\begin{center}
+	\begin{tabular}[h!]{ccc}
+		\textbf{Símbolo} & \textbf{Descripción} & \textbf{Valor} \\
+		\hline
+		$\Gamma$ & Difusividad & Variable \\
+		$L$ & Tamaño del dominio & Variable \\
+		$\psi_A$ & Condición de frontera izquierda (Dir) & 1 \\
+		$\psi_B$ & Condición de frontera derecha (Dir) & 0 \\ 
+		$q$ & Ganancia (fuente) o pérdida (sumidero) & Variable \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Cuando $\Gamma$ es constante, en una dimensión podemos escribir
+
+\begin{equation}
+-\Gamma \frac{\partial^2\psi}{\partial x^2} = q 
+\end{equation}
+
+en cuyo caso la solución analítica es
+
+\begin{equation}\label{eq:solexacta_dif_estacionaria}
+\psi(x) = \left(\frac{\psi_B - \psi_A}{L} + \frac{q}{2\Gamma} (L-x) \right) x + \psi_A
+\end{equation}
+
+\begin{figure}[h!]
+$$\includegraphics[scale=0.80]{Exacta_Sinfuente_Lvariable}$$
+\caption{Cuando $q = 0$ y variamos la longitud del dominio, observamos que la solución se mantiene en una línea recta cambiando solo su pendiente. 
+}
+\label{fig:exacta_sin_fuentes_lvar}
+\end{figure}
+
+\begin{figure}[h!]
+$$\includegraphics[scale=0.80]{Exacta_Confuente_Lvariable}$$
+\caption{Cuando $q = 1$ observamos una pequeña curvatura en la solución. Conforme 
+$L$ crece esta curvatura se incrementa.
+%En términos matemáticos, en la ecuación \eqref{eq:solexacta_dif_estacionaria} el término lineal,
+%$\left(\frac{\psi_B - \psi_A}{L} + \frac{qL}{2\Gamma}\right) x $, domina cuando $L$ se hace más pequeño, mientras que el término
+%cuadrátrico, $\frac{q}{2\Gamma} x^2$, se mantiene constante, véase figura \ref{fig:termino_lineal}.
+%En términos físicos, la misma difusión es homogénea en todo el dominio y no supera las condiciones de frontera.
+}
+\label{fig:exacta_con_fuentes_lvar}
+\end{figure}
+
+\begin{figure}[h!]
+	$$\includegraphics[scale=0.80]{Exacta_ConFuente_GammaVariable}$$
+	\caption{Cuando mantenemos fijos a $L = 1$ y $q = 1$, y variamos $\Gamma$, observamos que conforme a valores mayores de $\Gamma$ 
+	la curvatura de en la solución es más pronunciada. Por otro lado, se obtiene casi una línea recta cuando $\Gamma$ es muy pequeña.
+}
+	\label{fig:exacta_gamma_variable}
+\end{figure}
+
+\begin{figure}[h!]
+	$$\includegraphics[scale=0.70]{Exacta_q_variable}$$
+	\caption{Cuando mantenemos $L = 1$, $\Gamma = 1$ y variamos $q$. Observamos que conforme $|q|$ aumenta 
+		la solución tiene una mayor curvatura.}
+	\label{fig:exacta_q_variable}
+\end{figure}
+
+\section{Advección-Difusión estacionaria}
+
+\begin{equation*}
+\frac{\partial}{\partial x_j} \left( \upsilon_j \psi \right) -
+\frac{\partial }{\partial x_j} \left( \Gamma \frac{\partial \psi}{\partial x_j}\right) = q
+\end{equation*}
+
+\begin{center}
+	\begin{tabular}[h!]{ccc}
+		\textbf{Símbolo} & \textbf{Descripción} & \textbf{Valor} \\
+		\hline
+		$\Gamma$ & Difusividad & Variable \\
+		$\upsilon$ & Velocidad & Variable \\
+		$L$ & Tamaño del dominio & Variable \\
+		$\psi_A$ & Condición de frontera izquierda (Dir) & 1 \\
+		$\psi_B$ & Condición de frontera derecha (Dir) & 0 \\ 
+		$q$ & Ganancia (fuente) o pérdida (sumidero) & Variable \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Cuando $\Gamma$ y $\upsilon$ son constantes y $q = 0$, en una dimensión podemos escribir
+
+\begin{equation*}
+\frac{\partial \psi}{\partial x} = \frac{1}{P_e}\frac{\partial^2 \psi}{\partial x^2}
+\end{equation*}
+
+donde definimos $P_e =  \upsilon / \Gamma$ como el número de Peclet. La solución analítica en este caso es
+
+\begin{equation*}\label{eq:solexacta_advdif_estacionaria}
+\psi(x) = \left(\frac{e^{P_e x} - 1}{e^{P_e L} - 1}\right) (\psi_B - \psi_A) + \psi_A
+\end{equation*}
+
+\begin{figure}[h!]
+	$$\includegraphics[scale=0.70]{Exacta_AdvDif_Pe_variable}$$
+	\caption{Cuando mantenemos $L = 1$, $\Gamma = 1$ y variamos $q$. Observamos que conforme $|q|$ aumenta 
+		la solución tiene una mayor curvatura.}
+	\label{fig:exacta_advdif_Pe_variable}
+\end{figure}
+
+\section{Difusión NO estacionaria}
+
+\begin{equation}
+\tau \frac{\partial \psi}{\partial t}
+-\frac{\partial }{\partial x_j} \left( \Gamma \frac{\partial \psi}{\partial x_j}\right) = q
+\end{equation}
+
+\begin{center}
+	\begin{tabular}[h!]{ccc}
+		\textbf{Símbolo} & \textbf{Descripción} & \textbf{Valor} \\
+		\hline
+		$\Gamma$ & Difusividad & Variable \\
+		$L$ & Tamaño del dominio & Variable \\
+		$\psi_A$ & Condición de frontera izquierda (Dir) & 1 \\
+		$\psi_B$ & Condición de frontera derecha (Dir) & 0 \\ 
+		$\psi(x,0) $ & Condición inicial & 0 \\
+		$\tau $ & ''Almacenamiento'' & 1 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Cuando $\Gamma$ es constante y $q=0$, en una dimensión podemos escribir
+
+\begin{equation}
+\frac{\partial \psi}{\partial t} = \Gamma \frac{\partial^2\psi}{\partial x^2} 
+\end{equation}
+
+cuya solución analítica es
+
+\begin{equation}\label{eq:solexacta_dif__no_estacionaria}
+\psi(x,t) = \psi_{_A} + (\psi_{_B} - \psi_{_A}) \left( 
+\frac{x}{L} + \frac{2}{\pi} \sum\limits_{n=1}^{\infty} \frac{1}{n} \exp 
+\left( -\frac{n^2 \pi^2 \Gamma}{L^2}  t \right) \sin \left(\frac{n \pi}{ L } x \right)
+\right)
+\end{equation}
+
+\begin{figure}[h!]
+	$$\includegraphics[scale=0.70]{Exacta_Dif_NoSta}$$
+	\caption{Se muestra la solución para varios pasos de tiempo. Se observa que la solución avanza hacia 
+    una línea recta. Variando $\Gamma$ y/o $L$ se obtiene un comportamiento similar, con una mayor (aumentar $\Gamma$ o disminuir $L$) 
+    o menor velocidad (disminuir $\Gamma$ o aumentar $L$) del avance en la solución.}
+	\label{fig:exacta_dif_nosta}
+\end{figure}
+
+\section{Advección-Difusión NO estacionaria}
+
+\begin{equation}
+\tau \frac{\partial \psi}{\partial t} + \frac{\partial}{\partial x_j} \left( \upsilon_j \psi \right) - \frac{\partial }{\partial x_j} \left( \Gamma \frac{\partial \psi}{\partial x_j}\right) = q
+\end{equation}
+
+\begin{center}
+	\begin{tabular}[h!]{ccc}
+		\textbf{Símbolo} & \textbf{Descripción} & \textbf{Valor} \\
+		\hline
+		$\Gamma$ & Difusividad & Variable \\
+		$\upsilon$ & Velocidad & 1.0 \\
+		$L$ & Tamaño del dominio & 2.5 ($\to \infty$) \\
+		$\psi_A$ & Condición de frontera izquierda (Dir) & 1 \\
+		$\psi_B$ & Condición de frontera derecha (Dir) & 0 \\ 
+		$\psi(x,0) $ & Condición inicial & 0 \\
+		$\tau $ & ''Almacenamiento'' & 1 \\
+		\hline
+	\end{tabular}
+\end{center}
+
+Cuando $\Gamma$ y $\upsilon$ son constantes y $q = 0$, en una dimensión podemos escribir
+
+\begin{equation}
+\frac{\partial \psi}{\partial t} + \frac{\partial \psi}{\partial x} = \frac{1}{P_e} \frac{\partial^2 \psi}{\partial x^2} 
+\end{equation} 
+donde definimos $P_e =  \upsilon / \Gamma$ como el número de Peclet.
+Con estas condiciones y para $0 < \Gamma < 0.1$ la solución exacta es
+
+\begin{equation}
+\label{eq:advdiffExac}
+f(x,t) = 0.5 \left[\mbox{erfc}\left( \frac{x - ut}{2\sqrt{\Gamma t}} \right)+
+\exp\left(\frac{ux}{\Gamma}\right) 
+\mbox{erfc} \left( \frac{x + ut}{2\sqrt{\Gamma t}} \right) \right]
+\end{equation}
+	
+\begin{figure}[h!]
+	$$\includegraphics[scale=0.70]{Exacta_AdvDif_NoSta_Pe_10}$$
+	\caption{Se muestra la solución para varios pasos de tiempo. Se observa que la condición de frontera $\psi_A = 1.0$ se va
+		transmitiendo de izquierda a derecha conforme avanza el tiempo.}
+	\label{fig:exacta_dif_nosta}
+\end{figure}
+
+\begin{figure}[h!]
+	$$\includegraphics[scale=0.70]{Exacta_AdvDif_NoSta_Pe_100}$$
+	\caption{Se muestra la solución para varios pasos de tiempo. Se observa que la condición de frontera $\psi_A = 1.0$ se va
+		transmitiendo de izquierda a derecha conforme avanza el tiempo.}
+	\label{fig:exacta_dif_nosta}
+\end{figure}
+
+\begin{figure}[h!]
+	$$\includegraphics[scale=0.70]{Exacta_AdvDif_NoSta_Pe_1000}$$
+	\caption{Se muestra la solución para varios pasos de tiempo. Se observa que la condición de frontera $\psi_A = 1.0$ se va
+		transmitiendo de izquierda a derecha conforme avanza el tiempo.}
+	\label{fig:exacta_dif_nosta}
+\end{figure}
+
+\begin{figure}[h!]
+	$$\includegraphics[scale=0.70]{Exacta_AdvDif_NoSta_Pe_10000}$$
+	\caption{Se muestra la solución para varios pasos de tiempo. Se observa que la condición de frontera $\psi_A = 1.0$ se va
+		transmitiendo de izquierda a derecha conforme avanza el tiempo.}
+	\label{fig:exacta_dif_nosta}
+\end{figure}
+
+\end{document}

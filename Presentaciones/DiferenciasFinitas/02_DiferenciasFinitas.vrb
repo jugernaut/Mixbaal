@@ -1,0 +1,33 @@
+
+{\small
+\begin{exampleblock}{Ejercicio 2.}
+
+\textbf{Nota}: para obtener el mismo estilo de las gráficas de esta presentación,
+deberás usar el siguiente código y ponerlo en una celda al principio del notebook (no olvides ejecutarla).
+
+\begin{lstlisting}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parámetros para el estilo de las gráficas
+plt.style.use('seaborn-paper')
+params = {'figure.figsize' : (14,7),
+          'text.usetex'    : True,
+          'xtick.labelsize': 20,
+          'ytick.labelsize': 20,
+          'axes.labelsize' : 24,
+          'axes.titlesize' : 24,
+          'legend.fontsize': 24,
+          'lines.linewidth': 3,
+          'lines.markersize': 10,
+          'grid.color'     : 'darkgray',
+          'grid.linewidth' : 0.5,
+          'grid.linestyle' : '--',
+          'font.family': 'DejaVu Serif',
+}
+plt.rcParams.update(params)
+\end{lstlisting}
+{\tiny \textbf{OJO}: la línea que contiene el código: \texttt{'text.usetex' : True} requiere de que tengas instalado
+\LaTeX en tu computadora. Si no lo tienes, debes comentar esta línea (poner un \texttt{\#} al principio de la línea).}
+\end{exampleblock}
+}
