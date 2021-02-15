@@ -104,4 +104,8 @@ ENV/
 .DS_Store
 
 # PDF files
-*.pdf
+#*.pdf
+
+# Presentaciones
+
+Presentaciones/DiferenciasFinitas/
