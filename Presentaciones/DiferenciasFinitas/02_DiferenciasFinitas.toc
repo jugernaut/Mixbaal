@@ -5,7 +5,7 @@
 \beamer@subsectionintoc {1}{3}{Modelo Numérico}{17}{0}{1}
 \beamer@subsubsectionintoc {1}{3}{1}{Discretización del dominio}{20}{0}{1}
 \beamer@subsubsectionintoc {1}{3}{2}{Discretización de las ecuaciones}{24}{0}{1}
-\beamer@subsectionintoc {1}{4}{Modelo Computacional}{32}{0}{1}
-\beamer@sectionintoc {2}{Ejercicio 2.}{36}{0}{2}
-\beamer@sectionintoc {3}{Referencias}{44}{0}{3}
-\beamer@sectionintoc {4}{Créditos}{46}{0}{4}
+\beamer@subsectionintoc {1}{4}{Modelo Computacional}{33}{0}{1}
+\beamer@sectionintoc {2}{Ejercicio 2.}{37}{0}{2}
+\beamer@sectionintoc {3}{Referencias}{45}{0}{3}
+\beamer@sectionintoc {4}{Créditos}{47}{0}{4}

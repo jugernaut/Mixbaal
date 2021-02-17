@@ -207,7 +207,7 @@ Entonces el gradiente de temperaturas se puede escribir como $\displaystyle d T 
 por lo tanto, el flujo de calor sería:
 \[  q_x^{\prime\prime} = -\kappa \frac{T_2 - T_1}{L} = \kappa \frac{\Delta T}{L}\]
 %
-donde $\Delta T = T_1 - T_2$
+donde $\Delta T = T_1 - T_2$.
 Finalmente, la \textbf{transferencia de calor por conducción} $q_x$ (W), 
 a través de una pared plana de área $A$, es: $q_x = q_x^{\prime\prime} \cdot A$ .
 }
@@ -370,7 +370,7 @@ $$\includegraphics[height=1.75cm]{numericoCOMPLETO}$$
 	\item[Discretización]  Proceso de transferir funciones continuas, modelos, variables y ecuaciones a sus contrapartes \textit{discretas}. 
 \end{description}
 \begin{itemize}
-	\item {\small  La discretización es el primer paso en un modelo numérico cuyo objetivo es generar dichas contrapartes \textit{discretas} de manera adecuada, para que posteriormente sean evaluadas numéricamente mediante algoritmos que se implementan en una computadora.}
+	\item {\small  La discretización es el primer paso en un modelo numérico cuyo objetivo es generar las contrapartes \textit{discretas} de manera adecuada, para que posteriormente sean evaluadas numéricamente mediante algoritmos que se implementan en una computadora.}
 	
 	\strut
 	
@@ -488,7 +488,7 @@ Discretizamos la ecuación usando diferencias finitas de segundo orden:
 	Observe que todas las celdas son de la misma longitud $h$: la malla es 
 	\textcolor{blue}{\textit{estructurada}} y \textcolor{blue}{\textit{uniforme}}. 
 
-	\item Entonces la aproximación se escribe como sigue:
+	\item La aproximación de la derivada se escribe como sigue:
 \begin{equation}\label{eq:segundaDer1D}
 \boxed{
 \left.\frac{d^2 T}{d x^2}\right|_i = \frac{T_{i+1} - 2 T_{i} + T_{i-1}}{h^2} + \mathcal{O}(h^2)
@@ -524,7 +524,7 @@ donde $\displaystyle r_i = \frac{\kappa_i}{h^2}$ .
 \begin{frame}{Discretización de las ecuaciones}
 
 En el caso que estamos estudiando, necesitamos calcular la temperatura
-en los nodos $1$, $2$, $3$ y $4$, que son los nodos internos.
+en los nodos $i = 1, 2, 3, 4$, que son los nodos internos.
 $$\includegraphics[scale=0.30]{ModCon04.png}$$
 
 Debemos escribir una ecuación para cada uno de esos nodos:
@@ -548,7 +548,7 @@ uno de los nodos internos.
 
 \begin{frame}{Discretización de las ecuaciones}
 
-Para incorporar las condiciones de frontera debemos modificar las ecuaciones para los nodos en los extremos: $i = 1$ e $i = 4$
+Para incorporar las \textbf{condiciones de frontera} debemos modificar las ecuaciones para los nodos en los extremos: $i = 1$ e $i = 4$
 %
 $$\includegraphics[scale=0.30]{ModCon04.png}$$
 %
@@ -582,6 +582,23 @@ $$\includegraphics[scale=0.30]{ModCon04.png}$$
 Estas dos últimas ecuaciones incorporan las condiciones de frontera de este problema.
 
 \end{frame}
+
+\begin{frame}{Discretización de las ecuaciones}
+
+El sistema de ecuaciones, con las condiciones de frontera
+incorporadas, para los nodos $i = 1, 2, 3, 4$, se escribe como sigue:
+
+\begin{eqnarray*}
+	2 r_1 T_{1} - r_{1} T_{2} & = & S_1 + r_{1} T_A \\
+	-r_2 T_{1} + 2r_2 T_{2} - r_2 T_{3} & = & S_2 \\
+	-r_3 T_{2} + 2r_3 T_{3} - r_3 T_{4} & = & S_3 \\
+	-r_{4} T_{3} + 2 r_{4} T_{4} & = & S_4 + r_{4} T_B 
+\end{eqnarray*}
+
+$$\includegraphics[scale=0.30]{ModCon04.png}$$
+
+\end{frame}
+
 
 \begin{frame}{Discretización de las ecuaciones}
 
@@ -727,8 +744,8 @@ T[-1] = TB  # Frontera derecha
 # Lado derecho del sistema
 b = np.zeros(N)
 b[:] = S / r # Fuente o sumidero
-b[0]  = T[0]   # Condición de frontera
-b[-1] = T[-1]  # Condición de frontera
+b[0]  += T[0]   # Condición de frontera
+b[-1] += T[-1]  # Condición de frontera
 
 # Construcción de la matriz
 A = buildMatrix(N)
@@ -770,7 +787,8 @@ $$ \includegraphics[scale=0.35]{num_cond01}$$
 {\small 
 \begin{exampleblock}{Ejercicio 2.}
 \begin{enumerate}
-	\item Abrir la notebook \texttt{E02\_ConduccionEst.ipynb} y escribir el código del ejemplo 1 como sigue:
+	\item Abrir la notebook \texttt{E02\_ConduccionEst.ipynb}, del repositorio \href{https://github.com/luiggix/Mixbaal}{\texttt{Mixbaal}}, 
+	y escribir el código del ejemplo 1 como sigue:
  	\begin{enumerate}[a]
 		\item {\footnotesize Celda 1: La función \texttt{buildMatrix(N)}.}
 		\item {\footnotesize Celda 2: Los parámetros físicos y numéricos.}
@@ -984,8 +1002,9 @@ params = {'figure.figsize' : (14,7),
 }
 plt.rcParams.update(params)
 \end{lstlisting}
-{\tiny \textbf{OJO}: la línea que contiene el código: \texttt{'text.usetex' : True} requiere de que tengas instalado
-\LaTeX en tu computadora. Si no lo tienes, debes comentar esta línea (poner un \texttt{\#} al principio de la línea).}
+{\tiny \textcolor{red}{\textbf{OJO}: la línea que contiene el código:} \texttt{'text.usetex' : True} 
+ \textcolor{red}{requiere de que tengas instalado \LaTeX en tu computadora. Si no lo tienes, debes comentar esta línea (poner un \texttt{\#} 
+ al principio de la línea).}}
 \end{exampleblock}
 }
 \end{frame}

@@ -27,7 +27,8 @@ params = {'figure.figsize' : (14,7),
 }
 plt.rcParams.update(params)
 \end{lstlisting}
-{\tiny \textbf{OJO}: la línea que contiene el código: \texttt{'text.usetex' : True} requiere de que tengas instalado
-\LaTeX en tu computadora. Si no lo tienes, debes comentar esta línea (poner un \texttt{\#} al principio de la línea).}
+{\tiny \textcolor{red}{\textbf{OJO}: la línea que contiene el código:} \texttt{'text.usetex' : True}
+ \textcolor{red}{requiere de que tengas instalado \LaTeX en tu computadora. Si no lo tienes, debes comentar esta línea (poner un \texttt{\#}
+ al principio de la línea).}}
 \end{exampleblock}
 }
