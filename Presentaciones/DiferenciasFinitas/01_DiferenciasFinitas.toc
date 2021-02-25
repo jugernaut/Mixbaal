@@ -1,8 +1,0 @@
-\babel@toc {spanish}{}
-\beamer@sectionintoc {1}{Derivadas numéricas de primer orden}{3}{0}{1}
-\beamer@subsectionintoc {1}{1}{Forward, Backward, Centered}{6}{0}{1}
-\beamer@subsectionintoc {1}{2}{Aproximaciones con más puntos}{11}{0}{1}
-\beamer@sectionintoc {2}{Ejercicio 1.}{18}{0}{2}
-\beamer@sectionintoc {3}{Derivadas numéricas de orden superior}{20}{0}{3}
-\beamer@sectionintoc {4}{Referencias}{24}{0}{4}
-\beamer@sectionintoc {5}{Créditos}{26}{0}{5}
